@@ -1,64 +1,34 @@
+/* eslint-disable no-unused-vars */
 import './featuredProperties.css';
+import useFetch from '../../hooks/useFetch';
 
 export const FeaturedProperties = () => {
+    const { data, loading, error } = useFetch('/hotels?featured=true&limit=4');
+
     return (
         <div className="fp">
-            <div className="fpItem">
-                <img
-                    className="fpImg"
-                    alt=""
-                    src="https://www.claytonhotelduesseldorf.com/wp-content/uploads/2022/11/Clayton-Hotel-Duesseldorf-Superior-Zimmer-1-640x640.jpg"
-                />
-                <span className="fpName">Aparthotel Stare Miasto</span>
-                <span className="fpCity">Madrid</span>
-                <span className="fpPrice">Starting from $120</span>
-                <div className="fpRating">
-                    <button>8.9</button>
-                    <span>Excellent</span>
-                </div>
-            </div>
-            <div className="fpItem">
-                <img
-                    className="fpImg"
-                    alt=""
-                    src="https://www.claytonhotelduesseldorf.com/wp-content/uploads/2022/11/Executive-Suite-Clayton-Hotel-Dusseldorf-640x640.jpg"
-                />
-                <span className="fpName">Aparthotel Stare Miasto</span>
-                <span className="fpCity">Madrid</span>
-                <span className="fpPrice">Starting from $120</span>
-                <div className="fpRating">
-                    <button>8.9</button>
-                    <span>Excellent</span>
-                </div>
-            </div>
-            <div className="fpItem">
-                <img
-                    className="fpImg"
-                    alt=""
-                    src="https://static-new.lhw.com/-/media/Images/Hotel-Experiences/Brand-RU-Stories/King-David/King-DavidJerusalem-suite-bedroom-640x640.jpg"
-                />
-                <span className="fpName">Aparthotel Stare Miasto</span>
-                <span className="fpCity">Madrid</span>
-                <span className="fpPrice">Starting from $120</span>
-                <div className="fpRating">
-                    <button>8.9</button>
-                    <span>Excellent</span>
-                </div>
-            </div>
-            <div className="fpItem">
-                <img
-                    className="fpImg"
-                    alt=""
-                    src="https://i2.cdn.turner.com/money/dam/assets/150804102727-converted-hotel-tai-o-heritage-hotel-640x640.jpg"
-                />
-                <span className="fpName">Aparthotel Stare Miasto</span>
-                <span className="fpCity">Madrid</span>
-                <span className="fpPrice">Starting from $120</span>
-                <div className="fpRating">
-                    <button>8.9</button>
-                    <span>Excellent</span>
-                </div>
-            </div>
+            {loading ? (
+                'Loading'
+            ) : (
+                <>
+                    {data.map((item) => (
+                        <div className="fpItem" key={item._id}>
+                            <img
+                                className="fpImg"
+                                alt=""
+                                src={item.photos[0]}
+                            />
+                            <span className="fpName">{item.name}</span>
+                            <span className="fpCity">item.city}</span>
+                            <span className="fpPrice">Starting from ${item.cheapestPrice}</span>
+                            {item.rating && <div className="fpRating">
+                                <button>{item.rating}</button>
+                                <span>Excellent</span>
+                            </div>}
+                        </div>
+                    ))}
+                </>
+            )}
         </div>
     );
 };

@@ -8,11 +8,11 @@ import { useContext, useState } from 'react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '../../context/SearchContext';
+import { AuthContext } from '../../context/AuthContext';
 
 export const Header = ({ type }) => {
     const [openDate, setOpenDate] = useState(false);
     const [destination, setDestination] = useState('');
-
     const [dates, setDates] = useState([
         {
             startDate: new Date(),
@@ -20,6 +20,9 @@ export const Header = ({ type }) => {
             key: 'selection',
         },
     ]);
+
+    const { user } = useContext(AuthContext);
+
 
     const [openOptions, setOpenOptions] = useState(false);
     const [options, setOptions] = useState({
@@ -82,7 +85,7 @@ export const Header = ({ type }) => {
                             Get reward for your travel - unlock instant savings of 10% or more with a free SuaUbooking
                             account
                         </p>
-                        <button className="headerBtn">Sign in / Register</button>
+                        {!user && <button className="headerBtn">Sign in / Register</button>}
                         <div className="headerSearch">
                             <div className="headerSearchItem">
                                 <FontAwesomeIcon className="headerIcon" icon={faBed} />
